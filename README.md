@@ -75,6 +75,55 @@ Of the 11,892 URLs that finished (web pages and videos), 11,639 (97.9%) got cont
 - **Paid APIs** got 7%.
 - **The author's own logged-in browser** got 43%: the big marketplaces. This library does not do that, so expect those sites to end in `blocked` or in a paid API.
 
+The type of store decides the rung more than anything else:
+
+![Which rung got store prices, by type of store](docs/img/store-prices.png)
+
+- **Brand stores and small shops**: plain HTTP or curl_cffi got every price. No browser was ever needed.
+- **Brazilian retailers**: half of the readings came with plain HTTP. The other half are three big retailers that only answered the author's logged-in browser.
+- **Brazilian marketplaces**: 74% only through the logged-in browser. curl_cffi got the classifieds site, with 24 regional subdomains.
+- **Global marketplaces** used every rung: curl_cffi for a third, headless browsers and paid APIs for 12% each.
+
+Store by store (a reading is a price saved when it changed; URLs are product pages with at least one price):
+
+| Store | Type | Readings | URLs | Plain HTTP | curl_cffi | Headless browser | Paid API | Author's browser | Manual / unknown |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Amazon | global marketplace | 2,972 | 840 | 300 | 1,798 | 43 | 238 | 190 | 403 |
+| Mercado Livre | Brazilian marketplace | 1,565 | 814 | 17 |  | 164 | 3 | 1,379 | 2 |
+| AliExpress | global marketplace | 1,197 | 367 |  |  | 274 | 12 | 871 | 40 |
+| Shopee | Brazilian marketplace | 816 | 472 |  |  |  |  | 816 |  |
+| eBay | global marketplace | 766 | 415 | 7 | 2 | 56 | 371 | 320 | 10 |
+| OLX | Brazilian marketplace | 573 | 498 |  | 568 |  |  |  | 5 |
+| Alibaba | global marketplace | 396 | 304 |  |  | 277 | 38 | 37 | 44 |
+| Kabum! | Brazilian retailer | 281 | 195 | 281 |  |  |  |  |  |
+| Magazine Luiza | Brazilian retailer | 194 | 106 |  |  |  |  | 194 |  |
+| Casas Bahia | Brazilian retailer | 170 | 126 |  |  |  |  | 170 |  |
+| KZ Music Store | brand store | 134 | 89 | 132 |  |  |  |  | 2 |
+| Ponto Frio | Brazilian retailer | 123 | 93 |  |  |  |  | 123 |  |
+| Enjoei | Brazilian marketplace | 120 | 101 |  |  | 35 |  | 85 |  |
+| FastShop | Brazilian retailer | 111 | 73 | 111 |  |  |  |  |  |
+| Carrefour | Brazilian retailer | 71 | 46 | 71 |  |  |  |  |  |
+| Samsung | brand store | 60 | 58 |  | 56 |  |  | 4 |  |
+| Banggood | global marketplace | 46 | 17 |  |  |  |  | 46 |  |
+| The Space Music | small shop | 46 | 46 | 46 |  |  |  |  |  |
+| iPlace | small shop | 38 | 27 |  | 38 |  |  |  |  |
+| Timbres AVT | small shop | 34 | 8 | 34 |  |  |  |  |  |
+| Bemol | Brazilian retailer | 26 | 26 |  |  | 10 |  | 16 |  |
+| KZ Acoustics | brand store | 23 | 23 | 22 | 1 |  |  |  |  |
+| Apple | brand store | 21 | 13 |  | 21 |  |  |  |  |
+| Linsoul | small shop | 13 | 13 | 13 |  |  |  |  |  |
+| Porão Musical | small shop | 12 | 5 | 12 |  |  |  |  |  |
+| WebContinental | Brazilian retailer | 9 | 3 | 7 |  |  | 2 |  |  |
+| LBBAIXO | WhatsApp seller | 9 | 9 |  |  |  |  |  | 9 |
+| Ez Music Store | WhatsApp seller | 8 | 8 |  |  |  |  |  | 8 |
+| KZ Headphones | brand store | 3 | 3 |  | 3 |  |  |  |  |
+| BLACKCINZA | small shop | 3 | 3 | 3 |  |  |  |  |  |
+| Mac Switch | small shop | 3 | 3 | 3 |  |  |  |  |  |
+| Ri Happy | Brazilian retailer | 1 | 1 |  |  | 1 |  |  |  |
+| Infogama | small shop | 1 | 1 | 1 |  |  |  |  |  |
+| Music in Ear's Store | WhatsApp seller | 1 | 1 |  |  |  |  |  | 1 |
+| Google Store | brand store | 1 | 1 |  |  |  |  |  | 1 |
+
 ## How it works
 
 What the memory learns on one site, URL after URL:

@@ -75,6 +75,55 @@ Das 11.892 URLs que terminaram (páginas e vídeos), 11.639 (97,9%) tiveram cont
 - **APIs pagas** pegaram 7%.
 - **O navegador logado do próprio autor** pegou 43%: os grandes marketplaces. Esta biblioteca não faz isso, então nesses sites espere `blocked` ou uma API paga.
 
+O tipo de loja decide o degrau mais do que qualquer outra coisa:
+
+![Qual degrau pegou os preços das lojas, por tipo de loja](docs/img/store-prices.pt-BR.png)
+
+- **Lojas de fabricante e lojas pequenas**: HTTP comum ou curl_cffi pegaram todos os preços. Nunca foi preciso navegador.
+- **Varejistas brasileiros**: metade das leituras veio com HTTP comum. A outra metade são três grandes varejistas que só responderam ao navegador logado do autor.
+- **Marketplaces brasileiros**: 74% só pelo navegador logado. O curl_cffi pegou o site de classificados, com 24 subdomínios regionais.
+- **Marketplaces globais** usaram todos os degraus: curl_cffi em um terço, navegador headless e APIs pagas em 12% cada.
+
+Loja por loja (uma leitura é um preço gravado quando mudou; URLs são páginas de produto com pelo menos um preço):
+
+| Loja | Tipo | Leituras | URLs | HTTP comum | curl_cffi | Navegador headless | API paga | Navegador do autor | Manual / desconhecido |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Amazon | marketplace global | 2.972 | 840 | 300 | 1.798 | 43 | 238 | 190 | 403 |
+| Mercado Livre | marketplace brasileiro | 1.565 | 814 | 17 |  | 164 | 3 | 1.379 | 2 |
+| AliExpress | marketplace global | 1.197 | 367 |  |  | 274 | 12 | 871 | 40 |
+| Shopee | marketplace brasileiro | 816 | 472 |  |  |  |  | 816 |  |
+| eBay | marketplace global | 766 | 415 | 7 | 2 | 56 | 371 | 320 | 10 |
+| OLX | marketplace brasileiro | 573 | 498 |  | 568 |  |  |  | 5 |
+| Alibaba | marketplace global | 396 | 304 |  |  | 277 | 38 | 37 | 44 |
+| Kabum! | varejista brasileiro | 281 | 195 | 281 |  |  |  |  |  |
+| Magazine Luiza | varejista brasileiro | 194 | 106 |  |  |  |  | 194 |  |
+| Casas Bahia | varejista brasileiro | 170 | 126 |  |  |  |  | 170 |  |
+| KZ Music Store | loja de fabricante | 134 | 89 | 132 |  |  |  |  | 2 |
+| Ponto Frio | varejista brasileiro | 123 | 93 |  |  |  |  | 123 |  |
+| Enjoei | marketplace brasileiro | 120 | 101 |  |  | 35 |  | 85 |  |
+| FastShop | varejista brasileiro | 111 | 73 | 111 |  |  |  |  |  |
+| Carrefour | varejista brasileiro | 71 | 46 | 71 |  |  |  |  |  |
+| Samsung | loja de fabricante | 60 | 58 |  | 56 |  |  | 4 |  |
+| Banggood | marketplace global | 46 | 17 |  |  |  |  | 46 |  |
+| The Space Music | loja pequena | 46 | 46 | 46 |  |  |  |  |  |
+| iPlace | loja pequena | 38 | 27 |  | 38 |  |  |  |  |
+| Timbres AVT | loja pequena | 34 | 8 | 34 |  |  |  |  |  |
+| Bemol | varejista brasileiro | 26 | 26 |  |  | 10 |  | 16 |  |
+| KZ Acoustics | loja de fabricante | 23 | 23 | 22 | 1 |  |  |  |  |
+| Apple | loja de fabricante | 21 | 13 |  | 21 |  |  |  |  |
+| Linsoul | loja pequena | 13 | 13 | 13 |  |  |  |  |  |
+| Porão Musical | loja pequena | 12 | 5 | 12 |  |  |  |  |  |
+| WebContinental | varejista brasileiro | 9 | 3 | 7 |  |  | 2 |  |  |
+| LBBAIXO | vendedor no WhatsApp | 9 | 9 |  |  |  |  |  | 9 |
+| Ez Music Store | vendedor no WhatsApp | 8 | 8 |  |  |  |  |  | 8 |
+| KZ Headphones | loja de fabricante | 3 | 3 |  | 3 |  |  |  |  |
+| BLACKCINZA | loja pequena | 3 | 3 | 3 |  |  |  |  |  |
+| Mac Switch | loja pequena | 3 | 3 | 3 |  |  |  |  |  |
+| Ri Happy | varejista brasileiro | 1 | 1 |  |  | 1 |  |  |  |
+| Infogama | loja pequena | 1 | 1 | 1 |  |  |  |  |  |
+| Music in Ear's Store | vendedor no WhatsApp | 1 | 1 |  |  |  |  |  | 1 |
+| Google Store | loja de fabricante | 1 | 1 |  |  |  |  |  | 1 |
+
 ## Como funciona
 
 O que a memória aprende num site, URL após URL:
