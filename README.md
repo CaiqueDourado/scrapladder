@@ -205,6 +205,7 @@ Options of the backends (for example Scrapling's `fetch_options`, Camoufox's `op
 
 ## Related
 
+- [llm-cost-kit](https://github.com/CaiqueDourado/llm-cost-kit): what each LLM call really cost, from the same crawler.
 - [transcriptladder](https://github.com/CaiqueDourado/transcriptladder): the same ladder for YouTube transcripts (captions first, speech recognition last).
 - [BrCommerceKit](https://github.com/CaiqueDourado/BrCommerceKit): detect the e-commerce platform of a Brazilian store and read its product feed (a feed, when there is one, is cheaper than any rung).
 - [lojas-virtuais-brasil](https://github.com/CaiqueDourado/lojas-virtuais-brasil): 63,974 Brazilian online stores with their platform.

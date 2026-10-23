@@ -205,6 +205,7 @@ As opções dos backends (por exemplo `fetch_options` do Scrapling e `options` d
 
 ## Relacionados
 
+- [llm-cost-kit](https://github.com/CaiqueDourado/llm-cost-kit): quanto cada chamada de LLM custou de verdade, do mesmo crawler.
 - [transcriptladder](https://github.com/CaiqueDourado/transcriptladder): a mesma escada para transcrições do YouTube (legenda primeiro, reconhecimento de fala por último).
 - [BrCommerceKit](https://github.com/CaiqueDourado/BrCommerceKit): detecta a plataforma de uma loja brasileira e lê o feed de produtos dela (um feed, quando existe, sai mais barato que qualquer degrau).
 - [lojas-virtuais-brasil](https://github.com/CaiqueDourado/lojas-virtuais-brasil): 63.974 lojas virtuais brasileiras com a plataforma de cada uma.
