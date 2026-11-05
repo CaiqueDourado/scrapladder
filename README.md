@@ -8,14 +8,14 @@
 
 ![scrapladder](docs/img/cover.png)
 
-Fetch a web page by climbing a ladder of methods, from the cheapest to the heaviest, and **remember per domain which rung worked**:
+Fetches a web page by climbing a ladder of methods, from the cheapest to the heaviest, and **remembers which rung worked on each domain**:
 
 1. plain HTTP (`requests`, `httpx`);
 2. HTTP with a real browser's TLS fingerprint (`curl_cffi`);
 3. headless browsers (Playwright, Camoufox, Scrapling);
 4. paid scraping APIs (ScraperAPI, ScrapingBee, ScrapingDog, Scrape.do) as the last resort.
 
-The next URL of the same site starts at the rung that worked last time. It skips rungs that were blocked three times there.
+The next URL on the same site starts at the rung that worked last time. A rung that got blocked three times there gets skipped.
 
 ```python
 from scrapladder import Ladder
@@ -31,14 +31,14 @@ else:
 
 ## Where it comes from
 
-The ladder is the fetch layer of the crawler behind the author's product-review site, which reads manufacturer pages, reviews and the prices of Brazilian and international stores. Each site behaves differently:
+The ladder is the fetch layer of the crawler behind my product review site. It reads manufacturer pages, reviews and prices from Brazilian and international stores. Every site behaves differently:
 
 - some answer anything;
 - some answer `403` to any Python client whose TLS handshake does not look like a browser's;
 - some only show the content after JavaScript runs;
 - some stop every automated client at the CDN.
 
-Trying every method on every URL is slow and expensive. Hard-coding a method per site breaks the day the site changes.
+Trying every method on every URL is slow and expensive. Hard-coding one method per site breaks the day the site changes.
 
 So the crawler learned. Its memory ended up with 643 domains. The chart shows which method got the page first on each one:
 
@@ -48,7 +48,7 @@ So the crawler learned. Its memory ended up with 643 domains. The chart shows wh
 - **Playwright** was needed on 70 domains (11%), the sites that render with JavaScript.
 - **Paid APIs** were the answer on 32 domains (5%). Keeping them last kept the bill small.
 
-Caveat on these numbers: the crawler tried `curl_cffi` before `httpx` and `requests`, so they show which rung was enough, not that plain HTTP would have failed. The grey bar is a method the crawler had and this library does not include: it drove the author's own logged-in browser.
+A caveat on these numbers. The crawler tried `curl_cffi` before `httpx` and `requests`, so they show which rung was enough, not that plain HTTP would have failed. The grey bar is a method the crawler had and this library doesn't: it drove my own logged-in browser.
 
 ### What production says
 
@@ -62,7 +62,7 @@ The memory only keeps the winner. The crawler's database keeps every page it sav
 | requests + BeautifulSoup (first version, until Oct 2025) | 1,799 (26%) | 392 |
 | curl_cffi (ladder, since May 2026) | 1,616 (24%) | 463 |
 | paid APIs (ScraperAPI, ScrapingBee, Scrape.do, ScrapingDog) | 905 (13%) | — |
-| author's logged-in browser (not in this library) | 270 (4%) | 23 |
+| my logged-in browser (not in this library) | 270 (4%) | 23 |
 | httpx, DrissionPage, requests | 259 (4%) | — |
 
 Of the 11,892 URLs that finished (web pages and videos), 11,639 (97.9%) got content, 119 (1.0%, on 36 domains) stayed blocked, and 35 were gone (404).
@@ -73,20 +73,20 @@ Of the 11,892 URLs that finished (web pages and videos), 11,639 (97.9%) got cont
 - **requests** and **httpx** together got 11%.
 - **Browsers** (Scrapling, DrissionPage) got 9%.
 - **Paid APIs** got 7%.
-- **The author's own logged-in browser** got 43%: the big marketplaces. This library does not do that, so expect those sites to end in `blocked` or in a paid API.
+- **My own logged-in browser** got 43%: the big marketplaces. This library doesn't do that, so expect those sites to end in `blocked` or in a paid API.
 
 The type of store decides the rung more than anything else:
 
 ![Which rung got store prices, by type of store](docs/img/store-prices.png)
 
-- **Brand stores and small shops**: plain HTTP or curl_cffi got every price. No browser was ever needed.
-- **Brazilian retailers**: half of the readings came with plain HTTP. The other half are three big retailers that only answered the author's logged-in browser.
+- **Brand stores and small shops**: plain HTTP or curl_cffi got every price. No browser needed, ever.
+- **Brazilian retailers**: half the readings came with plain HTTP. The other half are three big retailers that only answered my logged-in browser.
 - **Brazilian marketplaces**: 74% only through the logged-in browser. curl_cffi got the classifieds site, with 24 regional subdomains.
 - **Global marketplaces** used every rung: curl_cffi for a third, headless browsers and paid APIs for 12% each.
 
 Store by store (a reading is a price saved when it changed; URLs are product pages with at least one price):
 
-| Store | Type | Readings | URLs | Plain HTTP | curl_cffi | Headless browser | Paid API | Author's browser | Manual / unknown |
+| Store | Type | Readings | URLs | Plain HTTP | curl_cffi | Headless browser | Paid API | My browser | Manual / unknown |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Amazon | global marketplace | 2,972 | 840 | 300 | 1,798 | 43 | 238 | 190 | 403 |
 | Mercado Livre | Brazilian marketplace | 1,565 | 814 | 17 |  | 164 | 3 | 1,379 | 2 |

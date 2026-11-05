@@ -8,14 +8,14 @@
 
 ![scrapladder](docs/img/cover.pt-BR.png)
 
-Baixa uma página subindo uma escada de métodos, do mais barato ao mais pesado, e **lembra, por domínio, qual degrau funcionou**:
+Baixa uma página subindo uma escada de métodos, do mais barato ao mais pesado, e **lembra qual degrau funcionou em cada domínio**:
 
 1. HTTP comum (`requests`, `httpx`);
 2. HTTP com a impressão digital TLS de um navegador de verdade (`curl_cffi`);
 3. navegadores headless (Playwright, Camoufox, Scrapling);
 4. APIs de scraping pagas (ScraperAPI, ScrapingBee, ScrapingDog, Scrape.do) como último recurso.
 
-A próxima URL do mesmo site começa no degrau que funcionou da última vez. Degraus bloqueados três vezes naquele site são pulados.
+A próxima URL do mesmo site começa no degrau que funcionou da última vez. Degrau que tomou bloqueio três vezes ali é pulado.
 
 ```python
 from scrapladder import Ladder
@@ -31,7 +31,7 @@ else:
 
 ## De onde vem
 
-A escada é a camada de coleta do crawler por trás do site de análises de produtos do autor. Esse crawler lê páginas de fabricantes, reviews e preços de lojas brasileiras e de fora. Cada site se comporta de um jeito:
+A escada é a camada de coleta do crawler por trás do meu site de análise de produtos. Ele lê páginas de fabricante, avaliações e preços de lojas brasileiras e de fora. Cada site se comporta de um jeito:
 
 - uns respondem a qualquer cliente;
 - outros devolvem `403` para todo cliente Python cujo handshake TLS não parece de navegador;
@@ -48,7 +48,7 @@ Então o crawler passou a aprender. A memória dele chegou a 643 domínios. O gr
 - **Playwright** foi necessário em 70 domínios (11%), os sites que montam a página com JavaScript.
 - **APIs pagas** resolveram 32 domínios (5%). Deixá-las por último manteve a conta baixa.
 
-Ressalva sobre esses números: o crawler tentava `curl_cffi` antes de `httpx` e `requests`, então eles mostram qual degrau bastou, não que o HTTP comum teria falhado. A barra cinza é um método que o crawler tinha e esta biblioteca não inclui: ele usava o navegador do próprio autor, logado.
+Um aviso sobre esses números. O crawler tentava `curl_cffi` antes de `httpx` e `requests`, então eles mostram qual degrau bastou, não que o HTTP comum teria falhado. A barra cinza é um método que o crawler tinha e esta biblioteca não tem: ele controlava o meu próprio navegador logado.
 
 ### O que a produção mostra
 
@@ -62,7 +62,7 @@ A memória só guarda o vencedor. O banco do crawler guarda cada página salva, 
 | requests + BeautifulSoup (primeira versão, até out. 2025) | 1.799 (26%) | 392 |
 | curl_cffi (escada, desde maio de 2026) | 1.616 (24%) | 463 |
 | APIs pagas (ScraperAPI, ScrapingBee, Scrape.do, ScrapingDog) | 905 (13%) | — |
-| navegador logado do autor (fora desta biblioteca) | 270 (4%) | 23 |
+| meu navegador logado (fora desta biblioteca) | 270 (4%) | 23 |
 | httpx, DrissionPage, requests | 259 (4%) | — |
 
 Das 11.892 URLs que terminaram (páginas e vídeos), 11.639 (97,9%) tiveram conteúdo, 119 (1,0%, em 36 domínios) ficaram bloqueadas e 35 não existiam mais (404).
@@ -73,20 +73,20 @@ Das 11.892 URLs que terminaram (páginas e vídeos), 11.639 (97,9%) tiveram cont
 - **requests** e **httpx** juntos pegaram 11%.
 - **Navegadores** (Scrapling, DrissionPage) pegaram 9%.
 - **APIs pagas** pegaram 7%.
-- **O navegador logado do próprio autor** pegou 43%: os grandes marketplaces. Esta biblioteca não faz isso, então nesses sites espere `blocked` ou uma API paga.
+- **O meu próprio navegador logado** pegou 43%: os grandes marketplaces. Esta biblioteca não faz isso, então espere que esses sites terminem em `blocked` ou numa API paga.
 
 O tipo de loja decide o degrau mais do que qualquer outra coisa:
 
 ![Qual degrau pegou os preços das lojas, por tipo de loja](docs/img/store-prices.pt-BR.png)
 
-- **Lojas de fabricante e lojas pequenas**: HTTP comum ou curl_cffi pegaram todos os preços. Nunca foi preciso navegador.
-- **Varejistas brasileiros**: metade das leituras veio com HTTP comum. A outra metade são três grandes varejistas que só responderam ao navegador logado do autor.
+- **Lojas de fabricante e lojas pequenas**: HTTP comum ou curl_cffi pegou todos os preços. Nunca precisou de navegador.
+- **Varejistas brasileiros**: metade das leituras veio com HTTP comum. A outra metade são três grandes varejistas que só respondiam ao meu navegador logado.
 - **Marketplaces brasileiros**: 74% só pelo navegador logado. O curl_cffi pegou o site de classificados, com 24 subdomínios regionais.
 - **Marketplaces globais** usaram todos os degraus: curl_cffi em um terço, navegador headless e APIs pagas em 12% cada.
 
 Loja por loja (uma leitura é um preço gravado quando mudou; URLs são páginas de produto com pelo menos um preço):
 
-| Loja | Tipo | Leituras | URLs | HTTP comum | curl_cffi | Navegador headless | API paga | Navegador do autor | Manual / desconhecido |
+| Loja | Tipo | Leituras | URLs | HTTP comum | curl_cffi | Navegador headless | API paga | Meu navegador | Manual / desconhecido |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | Amazon | marketplace global | 2.972 | 840 | 300 | 1.798 | 43 | 238 | 190 | 403 |
 | Mercado Livre | marketplace brasileiro | 1.565 | 814 | 17 |  | 164 | 3 | 1.379 | 2 |
